@@ -1,0 +1,650 @@
+<!--
+  * Alessandro Lucchesi - index.html 
+  * pagina principale
+-->
+
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SN4M - Social Network For Music</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+
+<body class="vh-100 overflow-hidden">
+
+    <div class="container-fluid h-100 d-flex flex-column p-0">
+        <div class="row flex-grow-1 m-0 overflow-hidden">
+
+            <nav
+                class="d-none d-md-flex col-md-3 col-lg-2 bg-body-tertiary p-3 flex-column h-100 z-2 border-end border-secondary-subtle">
+                <h1 class="text-brand fs-4 fw-bold mb-4 d-flex align-items-center">
+                    <i class="bi bi-music-note-list fs-3 me-2"></i> SN4M
+                </h1>
+
+                <ul class="nav flex-column mb-4">
+                    <li class="nav-item mb-2">
+                        <a href="#" class="nav-link text-body fw-bold px-0 d-flex align-items-center active-nav"
+                            onclick="navigate('view-home', this)">
+                            <i class="bi bi-house-door-fill fs-5 me-3 text-brand"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="#" class="nav-link text-body-secondary fw-semibold px-0 d-flex align-items-center"
+                            onclick="navigateSearch(this)">
+                            <i class="bi bi-search fs-5 me-3"></i> Cerca
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="#" class="nav-link text-body-secondary fw-semibold px-0 d-flex align-items-center"
+                            onclick="navigate('view-communities', this)">
+                            <i class="bi bi-people fs-5 me-3"></i> Community
+                        </a>
+                    </li>
+                </ul>
+
+                <hr class="border-secondary-subtle mt-0">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-body-secondary fw-bold small"><i class="bi bi-collection-play me-2"></i>
+                        PLAYLIST</span>
+                    <button class="btn btn-link text-body-secondary p-0" onclick="handleOpenCreatePlaylist()"
+                        title="Crea Playlist">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
+
+                <div class="overflow-auto flex-grow-1 pb-3 no-scrollbar">
+                    <ul class="nav flex-column" id="user-playlists">
+                        <li class="nav-item"><span class="nav-link text-body-secondary px-0 py-1 small"
+                                style="opacity: 0.5;">Nessuna playlist</span></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col col-md-9 col-lg-10 p-0 overflow-auto no-scrollbar bg-body h-100 position-relative z-1">
+
+                <header
+                    class="d-flex justify-content-end align-items-center p-3 position-sticky top-0 z-3 bg-body bg-opacity-75"
+                    style="backdrop-filter: blur(10px);">
+                    <button
+                        class="btn btn-outline-secondary rounded-circle me-3 d-flex align-items-center justify-content-center"
+                        id="theme-toggle" style="width: 40px; height: 40px;" title="Cambia Tema">
+                        <i class="bi bi-moon-stars-fill" id="theme-icon"></i>
+                    </button>
+                    <button id="btn-login-header" class="btn btn-brand rounded-pill px-4 fw-bold shadow-sm"
+                        onclick="showView('view-auth')">Accedi</button>
+                    <button id="btn-profile-header"
+                        class="btn btn-brand rounded-pill fw-bold d-none align-items-center px-3 py-2 shadow-sm"
+                        data-bs-toggle="modal" data-bs-target="#modalProfilo">
+                        <i class="bi bi-person-circle fs-5 me-2"></i> User
+                    </button>
+                </header>
+
+                <div class="p-4 pb-5">
+
+                    <section id="view-auth" class="d-none view-section">
+                        <div class="d-flex justify-content-center align-items-center py-4">
+                            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                                <div
+                                    class="card bg-body-tertiary border border-secondary-subtle rounded-4 p-4 p-md-5 shadow-lg">
+                                    <div class="text-center mb-4">
+                                        <i class="bi bi-headphones text-brand" style="font-size: 3rem;"></i>
+                                        <h2 class="text-body fw-bold mt-2" id="auth-title">Bentornato!</h2>
+                                    </div>
+
+                                    <form id="form-login" onsubmit="handleLogin(event)">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text bg-body border-secondary-subtle"><i
+                                                    class="bi bi-envelope"></i></span>
+                                            <input type="email" id="login-email"
+                                                class="form-control bg-body border-secondary-subtle" placeholder="Email"
+                                                required>
+                                        </div>
+                                        <div class="input-group mb-4">
+                                            <span class="input-group-text bg-body border-secondary-subtle"><i
+                                                    class="bi bi-lock"></i></span>
+                                            <input type="password" id="login-password"
+                                                class="form-control bg-body border-secondary-subtle"
+                                                placeholder="Password" required>
+                                        </div>
+                                        <button type="submit"
+                                            class="btn btn-brand w-100 rounded-pill py-2 fs-5 shadow-sm">Accedi</button>
+                                        <div class="text-center mt-4 text-body-secondary">Non hai un account? <a
+                                                href="#" class="text-brand fw-bold text-decoration-none"
+                                                onclick="toggleAuthForms()">Registrati</a></div>
+                                    </form>
+
+                                    <form id="form-register" class="d-none" onsubmit="handleRegister(event)">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text bg-body border-secondary-subtle"><i
+                                                    class="bi bi-person"></i></span>
+                                            <input type="text" id="reg-username"
+                                                class="form-control bg-body border-secondary-subtle"
+                                                placeholder="Nome Utente" required>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text bg-body border-secondary-subtle"><i
+                                                    class="bi bi-envelope"></i></span>
+                                            <input type="email" id="reg-email"
+                                                class="form-control bg-body border-secondary-subtle" placeholder="Email"
+                                                required>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text bg-body border-secondary-subtle"><i
+                                                    class="bi bi-lock"></i></span>
+                                            <input type="password" id="reg-password"
+                                                class="form-control bg-body border-secondary-subtle"
+                                                placeholder="Password" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <div class="dropdown">
+                                                <button
+                                                    class="btn btn-outline-secondary w-100 text-start d-flex justify-content-between align-items-center bg-body border-secondary-subtle"
+                                                    type="button" id="regTagsBtn" data-bs-toggle="dropdown"
+                                                    data-bs-auto-close="outside"
+                                                    onclick="loadRegSpotifyCategories()">Seleziona Generi Preferiti...
+                                                    <i class="bi bi-chevron-down"></i></button>
+                                                <ul class="dropdown-menu w-100 shadow-sm p-2" id="regTagsMenu"
+                                                    style="max-height: 150px; overflow-y: auto;">
+                                                    <li class="text-center small py-2">
+                                                        <div class="spinner-border spinner-border-sm text-brand"></div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div id="reg-selected-tags-container" class="d-flex flex-wrap gap-2 mt-2">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4 text-start position-relative">
+                                            <div class="input-group shadow-sm">
+                                                <span class="input-group-text bg-body border-secondary-subtle"><i
+                                                        class="bi bi-mic"></i></span>
+                                                <input type="text" id="reg-artist-search"
+                                                    class="form-control bg-body border-secondary-subtle"
+                                                    placeholder="Cerca i tuoi artisti preferiti...">
+                                            </div>
+                                            <div id="reg-artist-results"
+                                                class="position-absolute w-100 bg-body border border-secondary-subtle rounded shadow-lg d-none z-3"
+                                                style="top: 100%; max-height: 200px; overflow-y: auto;"></div>
+                                            <div id="reg-selected-artists-container"
+                                                class="d-flex flex-wrap gap-2 mt-2"></div>
+                                        </div>
+
+                                        <button type="submit"
+                                            class="btn btn-brand w-100 rounded-pill py-2 fs-5 shadow-sm">Registrati</button>
+                                        <div class="text-center mt-4 text-body-secondary">Hai già un account? <a
+                                                href="#" class="text-brand fw-bold text-decoration-none"
+                                                onclick="toggleAuthForms()">Accedi</a></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="view-home" class="view-section">
+                        <div id="home-guest" class="text-center py-5 mt-5">
+                            <i class="bi bi-music-note-beamed text-body-secondary mb-3 d-inline-block"
+                                style="font-size: 5rem;"></i>
+                            <h1 class="fw-bold display-5 mb-3 text-body">Benvenuto su SN4M</h1>
+                            <p class="text-body-secondary fs-5 mb-5 mx-auto" style="max-width: 600px;">Esplora il nostro
+                                database o accedi per creare playlist e unirti alle Comunità.</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <button
+                                    class="btn btn-brand rounded-pill px-4 py-2 fw-bold fs-5 shadow-sm d-flex align-items-center"
+                                    onclick="navigateSearch(document.querySelector('.bi-search').parentNode)"><i
+                                        class="bi bi-search me-2"></i> Cerca Musica</button>
+                                <button
+                                    class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-bold fs-5 d-flex align-items-center"
+                                    onclick="showView('view-auth')"><i class="bi bi-person me-2"></i> Accedi</button>
+                            </div>
+                        </div>
+
+                        <div id="home-logged" class="d-none">
+                            <div class="d-flex justify-content-between align-items-end mb-4">
+                                <div>
+                                    <h2 class="fw-bold fs-3 mb-1">Le tue Playlist</h2>
+                                    <p class="text-body-secondary mb-0 small">Create o importate da te</p>
+                                </div>
+                                <button
+                                    class="btn btn-brand rounded-pill fw-bold px-3 py-2 shadow-sm d-flex align-items-center gap-2"
+                                    onclick="handleOpenCreatePlaylist()"><i class="bi bi-plus-lg fs-5"></i> <span
+                                        class="d-none d-sm-inline">Nuova Playlist</span></button>
+                            </div>
+                            <div class="row g-4 mb-5" id="my-playlists-grid">
+                                <div
+                                    class="col-12 text-center py-5 bg-body-tertiary rounded-4 border border-secondary-subtle border-dashed">
+                                    <i class="bi bi-collection-play text-body-secondary mb-3 d-inline-block"
+                                        style="font-size: 3rem; opacity: 0.5;"></i>
+                                    <h4 class="fw-bold text-body">Nessuna playlist</h4>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-end mb-4 mt-2">
+                                <div>
+                                    <h2 class="fw-bold fs-3 mb-1">Le tue Comunità</h2>
+                                    <p class="text-body-secondary mb-0 small">I tuoi gruppi</p>
+                                </div>
+                                <button
+                                    class="btn btn-brand rounded-pill fw-bold px-3 py-2 shadow-sm d-flex align-items-center gap-2"
+                                    onclick="openCommunityModal()"><i class="bi bi-people fs-5"></i> <span
+                                        class="d-none d-sm-inline">Esplora / Crea</span></button>
+                            </div>
+                            <div class="row g-4" id="home-communities-grid">
+                                <div
+                                    class="col-12 text-center py-5 bg-body-tertiary rounded-4 border border-secondary-subtle border-dashed">
+                                    <i class="bi bi-globe text-body-secondary mb-3 d-inline-block"
+                                        style="font-size: 3rem; opacity: 0.5;"></i>
+                                    <h4 class="fw-bold text-body">Nessuna comunità</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="view-communities" class="d-none view-section">
+                        <div class="d-flex justify-content-between align-items-end mb-4">
+                            <div>
+                                <h2 class="fw-bold fs-3 mb-1">Tutte le tue Comunità</h2>
+                                <p class="text-body-secondary mb-0 small">Gestione completa dei gruppi</p>
+                            </div>
+                            <button
+                                class="btn btn-brand rounded-pill fw-bold px-3 py-2 shadow-sm d-flex align-items-center gap-2"
+                                onclick="openCommunityModal()"><i class="bi bi-people fs-5"></i> <span
+                                    class="d-none d-sm-inline">Esplora / Crea</span></button>
+                        </div>
+                        <div class="row g-4" id="my-communities-grid">
+                            <div
+                                class="col-12 text-center py-5 bg-body-tertiary rounded-4 border border-secondary-subtle border-dashed">
+                                <i class="bi bi-globe text-body-secondary mb-3 d-inline-block"
+                                    style="font-size: 3rem; opacity: 0.5;"></i>
+                                <h4 class="fw-bold text-body">Nessuna comunità</h4>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="view-playlist" class="d-none view-section">
+                        <div class="d-flex flex-column flex-md-row align-items-end mb-4 pt-3 gap-4">
+                            <img id="pl-detail-image" src="https://via.placeholder.com/232" class="shadow-lg rounded"
+                                alt="Playlist" style="width: 232px; height: 232px; object-fit: cover;">
+                            <div>
+                                <span class="text-body fw-bold small text-uppercase">Playlist</span>
+                                <h1 id="pl-detail-title" class="text-body fw-bold mb-3 text-truncate display-3"
+                                    style="letter-spacing: -2px;">Nome Playlist</h1>
+                                <p id="pl-detail-desc" class="text-body-secondary mb-2">Descrizione</p>
+                                <div id="pl-detail-info" class="text-body small fw-bold"><i
+                                        class="bi bi-person-circle me-1"></i> Utente • 0 brani</div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+                            <button
+                                class="btn btn-brand rounded-circle d-flex justify-content-center align-items-center"
+                                style="width: 56px; height: 56px;"><i class="bi bi-play-fill fs-2 ms-1"></i></button>
+                            <button id="btn-pl-share"
+                                class="btn btn-outline-secondary rounded-pill fw-bold px-3 d-flex align-items-center"
+                                onclick="openShareModal()"><i class="bi bi-share me-2"></i> Condividi</button>
+                            <button id="btn-pl-add"
+                                class="btn btn-outline-primary rounded-pill fw-bold px-3 d-flex align-items-center"
+                                onclick="openSearchForPlaylist()"><i class="bi bi-search me-2"></i> Aggiungi
+                                Brani</button>
+                            <button id="btn-pl-import"
+                                class="btn btn-success rounded-pill fw-bold px-3 d-none d-flex align-items-center"
+                                onclick="importCurrentSharedPlaylist()"><i class="bi bi-download me-2"></i>
+                                Importa</button>
+                            <button id="btn-pl-edit-name"
+                                class="btn btn-outline-secondary rounded-pill fw-bold px-3 d-flex align-items-center"
+                                onclick="editCurrentPlaylistName()"><i class="bi bi-pencil me-2"></i> Modifica Nome
+                            </button>
+                            <button id="btn-pl-delete"
+                                class="btn btn-outline-danger rounded-pill fw-bold px-3 ms-auto d-flex align-items-center"
+                                onclick="deleteCurrentPlaylist()"><i class="bi bi-trash3 me-2"></i> Elimina</button>
+                        </div>
+                        <table class="table table-hover table-borderless align-middle table-sm">
+                            <thead>
+                                <tr class="border-bottom border-secondary-subtle">
+                                    <th class="text-body-secondary fw-normal text-center" style="width: 5%">#</th>
+                                    <th class="text-body-secondary fw-normal" style="width: 45%">Titolo</th>
+                                    <th class="text-body-secondary fw-normal d-none d-md-table-cell" style="width: 30%">
+                                        Anno</th>
+                                    <th class="text-body-secondary fw-normal text-end" style="width: 10%"><i
+                                            class="bi bi-clock"></i></th>
+                                    <th style="width: 10%"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="pl-detail-tbody"></tbody>
+                        </table>
+                    </section>
+
+                    <section id="view-community-board" class="d-none view-section">
+                        <div class="d-flex align-items-center mb-4 pt-3">
+                            <button class="btn btn-outline-secondary rounded-circle me-3"
+                                onclick="showView('view-communities')"><i class="bi bi-arrow-left fs-5"></i></button>
+                            <div>
+                                <span class="text-body fw-bold small text-uppercase">Bacheca Comunità</span>
+                                <h1 id="board-title" class="text-body fw-bold mb-1 text-truncate display-5"
+                                    style="letter-spacing: -1px;">Nome Comunità</h1>
+                                <p id="board-desc" class="text-body-secondary mb-2">Descrizione</p>
+                                <div id="board-info" class="text-body small fw-bold"></div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-4 shadow-sm">
+                            <span class="input-group-text bg-body border-secondary-subtle"><i
+                                    class="bi bi-search"></i></span>
+                            <input type="text" id="search-shared-playlists"
+                                class="form-control bg-body border-secondary-subtle"
+                                placeholder="Cerca playlist per tag o canzone..." oninput="filterSharedPlaylists()">
+                        </div>
+                        <div class="row g-4 mb-5" id="board-playlists-grid"></div>
+                    </section>
+                </div>
+
+                <section id="overlay-search"
+                    class="d-none position-absolute top-0 start-0 w-100 h-100 z-3 glass-overlay overflow-auto p-4 p-md-5">
+                    <div class="d-flex justify-content-end mb-4"><button class="btn btn-link text-body p-0 fs-2"
+                            onclick="closeSearch()"><i class="bi bi-x-lg"></i></button></div>
+                    <div class="d-flex flex-column align-items-center">
+                        <h2 class="text-body fw-bold mb-4">Cerca su SN4M</h2>
+                        <div class="input-group shadow-lg mb-4" style="max-width: 600px;">
+                            <span class="input-group-text bg-body border-0 px-4"><i
+                                    class="bi bi-search text-body fs-4"></i></span>
+                            <input type="text" id="search-input" class="form-control bg-body border-0 py-3 fs-5"
+                                placeholder="Titolo, Artista o Genere...">
+                        </div>
+                        <div class="text-center text-body-secondary mt-5" id="search-empty-state">
+                            <i class="bi bi-music-note-list" style="font-size: 4rem; opacity: 0.5;"></i>
+                            <p class="mt-3 fs-5">Digita qualcosa per cercare canzoni.</p>
+                        </div>
+                        <div class="row g-4 mt-2 w-100 d-none" id="search-results-grid"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer
+            class="bg-body-tertiary border-top border-secondary-subtle d-flex justify-content-between align-items-center px-2 px-md-3 z-3"
+            style="height: 80px;">
+            <div class="d-flex align-items-center overflow-hidden" style="flex: 1;">
+                <i id="player-placeholder"
+                    class="bi bi-music-note-beamed text-body-secondary fs-3 me-3 p-2 bg-body rounded d-none d-sm-block"></i>
+                <img id="player-cover" src="" class="rounded d-none me-3 shadow-sm"
+                    style="width: 48px; height: 48px; object-fit: cover;" alt="Cover">
+                <div class="text-truncate">
+                    <div id="player-title" class="fw-bold text-body fs-6 text-truncate" style="max-width: 150px;">Nessun
+                        brano</div>
+                    <div id="player-artist" class="text-body-secondary text-truncate"
+                        style="font-size: 0.8rem; max-width: 150px;">Esplora e riproduci</div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center justify-content-center" style="flex: 1;">
+                <div class="d-flex align-items-center gap-3 gap-md-4 mb-1">
+                    <i class="bi bi-skip-backward-fill text-body-secondary fs-4 d-none d-sm-block hover-brand"
+                        style="cursor: pointer;"></i>
+                    <button id="player-play-btn"
+                        class="btn btn-brand rounded-circle d-flex justify-content-center align-items-center p-0"
+                        style="width: 40px; height: 40px;">
+                        <i id="player-play-icon" class="bi bi-play-fill fs-3 ms-1"></i>
+                    </button>
+                    <i class="bi bi-skip-forward-fill text-body-secondary fs-4 d-none d-sm-block hover-brand"
+                        style="cursor: pointer;"></i>
+                </div>
+            </div>
+
+            <div style="flex: 1;"></div>
+        </footer>
+
+    </div>
+
+    <div class="modal fade" id="modalProfilo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-body border-secondary-subtle">
+                <div class="modal-header border-bottom border-secondary-subtle">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-circle me-2"></i> Il tuo Profilo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-person-bounding-box text-brand mb-2 d-inline-block"
+                            style="font-size: 3rem;"></i>
+                        <h3 class="fw-bold mb-0" id="profile-modal-username">Utente</h3>
+                    </div>
+
+                    <form id="form-edit-profile" onsubmit="handleUpdateProfile(event)">
+                        <div class="mb-3 text-start">
+                            <label class="form-label fw-bold small">Nome Utente</label>
+                            <input type="text" id="edit-username" class="form-control bg-body border-secondary-subtle"
+                                required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label fw-bold small">Email</label>
+                            <input type="email" id="edit-email" class="form-control bg-body border-secondary-subtle"
+                                required>
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label class="form-label fw-bold small">Generi Preferiti</label>
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn-outline-secondary w-100 text-start d-flex justify-content-between align-items-center bg-body border-secondary-subtle"
+                                    type="button" id="editTagsBtn" data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside" onclick="loadEditSpotifyCategories()">Seleziona
+                                    Generi... <i class="bi bi-chevron-down"></i></button>
+                                <ul class="dropdown-menu w-100 shadow-sm p-2" id="editTagsMenu"
+                                    style="max-height: 150px; overflow-y: auto;">
+                                    <li class="text-center small py-2">
+                                        <div class="spinner-border spinner-border-sm text-brand"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="edit-selected-tags-container" class="d-flex flex-wrap gap-2 mt-2"></div>
+                        </div>
+
+                        <div class="mb-4 text-start position-relative">
+                            <label class="form-label fw-bold small">Artisti Preferiti</label>
+                            <div class="input-group shadow-sm">
+                                <span class="input-group-text bg-body border-secondary-subtle"><i
+                                        class="bi bi-mic"></i></span>
+                                <input type="text" id="edit-artist-search"
+                                    class="form-control bg-body border-secondary-subtle" placeholder="Cerca artista...">
+                            </div>
+                            <div id="edit-artist-results"
+                                class="position-absolute w-100 bg-body border border-secondary-subtle rounded shadow-lg d-none z-3"
+                                style="top: 100%; max-height: 200px; overflow-y: auto;"></div>
+                            <div id="edit-selected-artists-container" class="d-flex flex-wrap gap-2 mt-2"></div>
+                        </div>
+
+                        <div class="d-flex flex-column gap-2">
+                            <button type="submit" class="btn btn-brand rounded-pill fw-bold w-100 shadow-sm py-2">Salva
+                                Modifiche</button>
+                            <button type="button" class="btn btn-outline-secondary rounded-pill fw-bold w-100 py-2"
+                                onclick="handleLogout()">Esci dall'account</button>
+                        </div>
+                    </form>
+
+                    <hr class="border-secondary-subtle my-4">
+
+                    <div class="text-center">
+                        <p class="small text-body-secondary mb-2">Attenzione: l'azione è irreversibile e cancellerà
+                            tutte le tue playlist.</p>
+                        <button type="button" class="btn btn-danger rounded-pill fw-bold w-100 shadow-sm py-2"
+                            onclick="handleDeleteAccount()">Elimina Account Definitivamente</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalPlaylist" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-body border-secondary-subtle">
+                <div class="modal-header border-bottom border-secondary-subtle">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-collection-play me-2"></i> Crea Playlist</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="resetPlaylistModal()"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <form id="form-create-playlist" onsubmit="handleCreatePlaylist(event)">
+                        <div class="row">
+                            <div class="col-md-6 mb-4 mb-md-0 border-end border-secondary-subtle">
+                                <h6 class="fw-bold mb-3 text-brand">Dettagli</h6>
+                                <div class="mb-3">
+                                    <input type="text" id="new-playlist-name"
+                                        class="form-control bg-body border-secondary-subtle"
+                                        placeholder="Nome della Playlist *" required>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea id="new-playlist-desc"
+                                        class="form-control bg-body border-secondary-subtle" rows="2"
+                                        placeholder="Descrizione (opzionale)"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="dropdown">
+                                        <button
+                                            class="btn btn-outline-secondary w-100 text-start d-flex justify-content-between align-items-center bg-body border-secondary-subtle"
+                                            type="button" id="dropdownTagsBtn" data-bs-toggle="dropdown"
+                                            data-bs-auto-close="outside" onclick="loadSpotifyCategories()">Seleziona
+                                            tag... <i class="bi bi-chevron-down"></i></button>
+                                        <ul class="dropdown-menu w-100 shadow-sm p-2" id="dropdownTagsMenu"
+                                            style="max-height: 200px; overflow-y: auto;">
+                                            <li class="text-center small py-2">
+                                                <div class="spinner-border spinner-border-sm text-brand"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div id="selected-tags-container" class="d-flex flex-wrap gap-2 mt-2"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold mb-3 text-brand">Aggiungi Brani</h6>
+                                <div class="input-group mb-2 shadow-sm">
+                                    <input type="text" id="modal-search-input"
+                                        class="form-control bg-body border-secondary-subtle"
+                                        placeholder="Cerca brano...">
+                                    <button class="btn btn-outline-secondary" type="button"
+                                        onclick="searchSongsForNewPlaylist()"><i class="bi bi-search"></i></button>
+                                </div>
+                                <div id="modal-search-results"
+                                    class="overflow-auto mb-3 border border-secondary-subtle rounded p-2 d-none bg-body-tertiary"
+                                    style="max-height: 180px;"></div>
+                                <ul id="modal-selected-songs"
+                                    class="list-group list-group-flush overflow-auto border border-secondary-subtle rounded"
+                                    style="max-height: 150px;">
+                                    <li class="list-group-item text-body-secondary small text-center"
+                                        id="empty-selection-msg">Nessun brano aggiunto</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-top border-secondary-subtle">
+                            <button type="submit"
+                                class="btn btn-brand w-100 rounded-pill py-2 fw-bold fs-5 shadow-sm">Salva
+                                Playlist</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalChoosePlaylist" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content bg-body border-secondary-subtle">
+                <div class="modal-header border-bottom border-secondary-subtle">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-collection-play me-2"></i> Aggiungi a...</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-3">
+                    <p class="small text-body-secondary mb-3">Scegli in quale playlist inserire il brano:</p>
+                    <div id="modal-choose-playlist-list" class="overflow-auto" style="max-height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCondividi" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content bg-body border-secondary-subtle">
+                <div class="modal-header border-bottom border-secondary-subtle">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-share me-2"></i> Condividi Playlist</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-3">
+                    <p class="small text-body-secondary mb-3">Scegli in quale comunità renderla pubblica.</p>
+                    <div id="modal-share-list" class="overflow-auto" style="max-height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCommunity" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-body border-secondary-subtle">
+                <div class="modal-header border-bottom border-secondary-subtle">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-globe me-2"></i> Gestione Comunità</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <ul class="nav nav-pills nav-fill mb-4 p-1 bg-body-tertiary rounded-pill border border-secondary-subtle"
+                        id="communityTabs">
+                        <li class="nav-item"><a class="nav-link active rounded-pill fw-bold" href="#"
+                                onclick="showCommunityTab('esplora')">Esplora / Le tue</a></li>
+                        <li class="nav-item"><a class="nav-link rounded-pill fw-bold" href="#"
+                                onclick="showCommunityTab('crea')">Crea Nuova</a></li>
+                    </ul>
+                    <div id="tab-esplora">
+                        <div class="input-group mb-4 shadow-sm">
+                            <span class="input-group-text bg-body border-secondary-subtle"><i
+                                    class="bi bi-search"></i></span>
+                            <input type="text" id="search-community-input"
+                                class="form-control bg-body border-secondary-subtle" placeholder="Cerca comunità..."
+                                oninput="renderCommunitySearchResults()">
+                        </div>
+                        <div id="modal-communities-list" class="overflow-auto pe-2" style="max-height: 400px;"></div>
+                    </div>
+                    <div id="tab-crea" class="d-none">
+                        <form id="form-community" onsubmit="handleSaveCommunity(event)">
+                            <input type="hidden" id="comm-edit-id" value="">
+                            <div class="mb-3"><input type="text" id="comm-name"
+                                    class="form-control bg-body border-secondary-subtle"
+                                    placeholder="Nome della Comunità *" required></div>
+                            <div class="mb-3"><textarea id="comm-desc"
+                                    class="form-control bg-body border-secondary-subtle" rows="2"
+                                    placeholder="Descrizione (opzionale)"></textarea></div>
+                            <div class="mb-4">
+                                <div class="dropdown">
+                                    <button
+                                        class="btn btn-outline-secondary w-100 text-start d-flex justify-content-between align-items-center bg-body border-secondary-subtle"
+                                        type="button" id="commTagsBtn" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" onclick="loadCommSpotifyCategories()">Seleziona
+                                        tag... <i class="bi bi-chevron-down"></i></button>
+                                    <ul class="dropdown-menu w-100 shadow-sm p-2" id="commTagsMenu"
+                                        style="max-height: 200px; overflow-y: auto;">
+                                        <li class="text-center small py-2">
+                                            <div class="spinner-border spinner-border-sm text-brand"></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div id="comm-selected-tags-container" class="d-flex flex-wrap gap-2 mt-2"></div>
+                            </div>
+                            <button type="submit" class="btn btn-brand w-100 rounded-pill py-2 fw-bold shadow-sm"
+                                id="btn-save-comm">Crea Comunità</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JS/SpotifyAPI.js"></script>
+    <script src="JS/search.js"></script>
+    <script src="JS/user.js"></script>
+    <script src="JS/playlist.js"></script>
+    <script src="JS/community.js"></script>
+    <script src="JS/index.js"></script>
+</body>
+
+</html>
