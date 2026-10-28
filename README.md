@@ -83,6 +83,9 @@ cd SN4M
 4. Start the application:
 Simply open the index.html file in any modern browser, or run it via a local server (like the Live Server extension in VS Code).
 
+### live version:
+ - https://sn4m.netlify.app
+
 ## 👤Author 
 Alessandro Lucchesi
 University project created for the Web Technologies / Web Programming course.
