@@ -10,6 +10,7 @@
 
 The application allows users to search for tracks and artists via the **official Spotify API**, create and manage personal playlists, join thematic communities, and share/import playlists among users.
 
+### [Live Demo](https://sn4m.netlify.app)
 ---
 
 ## ✨ Main Features
@@ -82,9 +83,6 @@ cd SN4M
 ```
 4. Start the application:
 Simply open the index.html file in any modern browser, or run it via a local server (like the Live Server extension in VS Code).
-
-### live version:
- - https://sn4m.netlify.app
 
 ## 👤Author 
 Alessandro Lucchesi
