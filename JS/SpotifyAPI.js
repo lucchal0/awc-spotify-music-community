@@ -8,7 +8,8 @@ const APIController = (function () {
 
     /* *
      * 
-     *  inserire il proprio client_id e client_secreat dall'api di spotify
+     *  insert client_id e client_secreat 
+     * 
      *  const clientId = "INSERT_YOUR_CLIENT_ID";
      *  const clientSecret = "INSERT_YOUR_CLIENT_SECREAT ";
      * 
