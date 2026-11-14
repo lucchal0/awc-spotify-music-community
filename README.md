@@ -10,7 +10,9 @@
 
 The application allows users to search for tracks and artists via the **official Spotify API**, create and manage personal playlists, join thematic communities, and share/import playlists among users.
 
-**##[!live demo][https://lucchal0.github.io/awc-spotify-music-community/]**
+## 🚀 Live Demo
+
+[🌐 View Live Demo](https://lucchal0.github.io/awc-spotify-music-community/)
 
 ---
 
