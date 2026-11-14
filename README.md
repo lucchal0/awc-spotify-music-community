@@ -1,11 +1,5 @@
 # 🎵 SN4M - Social Network For Music
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![Bootstrap 5](https://img.shields.io/badge/Bootstrap_5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Spotify API](https://img.shields.io/badge/Spotify_API-1DB954?style=for-the-badge&logo=spotify&logoColor=white)
-
 **SN4M (Social Network For Music)** is a Web Application developed as a **Single Page Application (SPA)** that combines a Spotify-style music listening and search experience with the social interaction features of a community.
 
 The application allows users to search for tracks and artists via the **official Spotify API**, create and manage personal playlists, join thematic communities, and share/import playlists among users.
